@@ -1,0 +1,32 @@
+# Script to configure X, start common apps
+
+# Configure X
+#xsetroot -cursor_name left_ptr &
+#xrdb -merge ~/.Xresources &
+xrandr --dpi 168
+
+# Start the system tray
+stalonetray &
+
+# Start dropbox
+dropbox start &
+
+# Start WPA Supplicant GUI
+wpa_gui -t &
+
+# Start two terminals
+urxvt -e tmux &
+urxvt -e mutt &
+
+# Start Pidgin
+pidgin &
+
+# Start a browser
+firefox &
+
+# Start screensaver
+xscreensaver -no-splash &
+
+# Start sound server
+pulseaudio --start &
+

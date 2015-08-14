@@ -1,0 +1,7 @@
+background black
+geometry 1x1+3168+0
+icon_gravity SE
+grow_gravity SE
+icon_size 32
+window_type normal
+window_strut none
