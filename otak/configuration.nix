@@ -31,13 +31,11 @@
     ];
 
     systemPackages = with pkgs; [
-      chromium
       ctags
       dmenu
       dropbox
       elinks
       evince
-      firefox-bin
       git
       gnupg
       haskellPackages.xmobar
@@ -50,7 +48,6 @@
       pidgin-with-plugins
       python
       rxvt_unicode
-      sbt
       scrot
       silver-searcher
       stalonetray
@@ -116,6 +113,11 @@
       enableWideVine = true;
     };
 
+    firefox = {
+      enableGoogleTalkPlugin = true;
+      enableAdobeFlash = true;
+    };
+
     dmenu.enableXft = true;
 
     packageOverrides = pkgs: with pkgs; {
@@ -170,6 +172,7 @@
 
       synaptics = {
         enable = true;
+        accelFactor = "0.01";
         additionalOptions = ''
           Option "VertScrollDelta" "-100"
           Option "HorizScrollDelta" "-100"
