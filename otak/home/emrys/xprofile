@@ -1,4 +1,4 @@
-# Script to configure X, start common apps
+# Script to configure X, start common apps, and start xmonad.
 
 # Configure X
 #xsetroot -cursor_name left_ptr &

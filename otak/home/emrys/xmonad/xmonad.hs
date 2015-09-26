@@ -1,5 +1,5 @@
 -- xmonad config used by Vic Fryzel
--- Author: Vic Fryzel, Emrys Ingersoll
+-- Author: Vic Fryzel
 -- http://github.com/vicfryzel/xmonad-config
 
 import System.IO
@@ -51,8 +51,7 @@ myWorkspaces = ["1:term","2:web","3:code","4:codeaux","5:media"] ++ map show [6.
 -- 'className' and 'resource' are used below.
 --
 myManageHook = composeAll
-    [ className =? "Chromium"       --> doShift "2:web"
-    , className =? "Firefox"        --> doShift "2:web"
+    [ className =? "Firefox"        --> doShift "2:web"
     , resource  =? "desktop_window" --> doIgnore
     , className =? "Pidgin"         --> doShift "1:term"
     , className =? "stalonetray"    --> doIgnore
@@ -146,17 +145,18 @@ myKeys conf = mkKeymap conf $
   , ("M-C-S-p",
      spawn "screenshot")
 
+  -- NB: Disabled as "Speaker" remains separately muted when master is unmuted
   -- Mute volume.
-  , ("<XF86AudioMute>",
-     spawn "amixer -q set Master toggle")
+  --, ("<XF86AudioMute>",
+  --   spawn "amixer -c 1 -q set Master toggle")
 
   -- Decrease volume.
   , ("<XF86AudioLowerVolume>",
-     spawn "amixer -q set Master 5%-")
+     spawn "amixer -c 1 -q set Master 5%-")
 
   -- Increase volume.
   , ("<XF86AudioRaiseVolume>",
-     spawn "amixer -q set Master 5%+")
+     spawn "amixer -c 1 -q set Master 5%+")
 
   -- Decrease brightness.
   , ("<XF86MonBrightnessDown>",
@@ -207,7 +207,7 @@ myKeys conf = mkKeymap conf $
      windows W.focusMaster)
 
   -- Swap the focused window and the master window.
-  , ("M-<Enter>",
+  , ("M-<Return>",
      windows W.swapMaster)
 
   -- Swap the focused window with the next window.

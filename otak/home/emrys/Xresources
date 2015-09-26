@@ -1,5 +1,5 @@
 ! X Server
-!Xcursor.size: 48
+Xcursor.size: 48
 
 ! urxvt
 URxvt*buffered: true

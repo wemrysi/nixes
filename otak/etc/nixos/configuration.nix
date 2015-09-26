@@ -41,10 +41,12 @@
       haskellPackages.xmobar
       haskellPackages.yeganesh
       irssi
+      lsof
       mutt
       nixbang
       offlineimap
       patchelf
+      pavucontrol
       pidgin-with-plugins
       python
       rxvt_unicode
@@ -61,6 +63,7 @@
       xfce.ristretto
       xlibs.xdpyinfo
       xlibs.xmessage
+      xlibs.xcursorthemes
       xscreensaver
     ];
   };
@@ -154,6 +157,8 @@
     };
 
     upower.enable = true;
+
+    virtualboxHost.enable = true;
 
     xserver = {
       enable = true;
