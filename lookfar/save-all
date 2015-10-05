@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
+
+# Files to save
+files=(
+  "/etc/nixos/configuration.nix"
+  "/etc/nixos/hardware-configuration.nix"
+  "/home/emrys/.nixpkgs/config.nix"
+  "/home/emrys/.xmonad/xmonad.hs"
+  "/home/emrys/.xmonad/xmobar.hs"
+  "/home/emrys/.stalonetrayrc"
+  "/home/emrys/.Xresources"
+  "/home/emrys/.xprofile"
+)
+
+# Copy files into project, stripping dots
+for idx in $(seq 0 $((${#files[@]} - 1))); do
+  filename="${files[$idx]##/*/}"
+  fileNoDots="${filename#.}"
+
+  relative="${files[$idx]#/}"
+  relDir="${relative%/*}"
+  noDots="${SCRIPT_DIR}/${relDir//./}"
+
+  mkdir -p ${noDots}
+  cp ${files[$idx]} ${noDots}/${fileNoDots}
+done
+
+# Delete hashed password from config
+sed -i '/hashedPassword/d' ${SCRIPT_DIR}/etc/nixos/configuration.nix

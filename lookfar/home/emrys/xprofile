@@ -1,0 +1,28 @@
+# Script to configure X, start common apps, and start xmonad.
+
+# Configure X
+xsetroot -cursor_name left_ptr &
+xrdb -merge ~/.Xresources &
+
+# Start the system tray
+stalonetray &
+
+# Start dropbox
+dropbox start &
+
+# Start two terminals
+urxvt -e tmux &
+urxvt -e mutt &
+
+# Start Pidgin
+pidgin &
+
+# Start a browser
+chromium &
+
+# Start screensaver
+xscreensaver -no-splash &
+
+# Start sound server
+pulseaudio --start &
+

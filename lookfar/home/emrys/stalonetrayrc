@@ -1,0 +1,6 @@
+background black
+geometry 7x1+1804+0
+icon_gravity NE
+icon_size 16
+window_type normal
+window_strut none
