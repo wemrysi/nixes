@@ -6,6 +6,7 @@ SCRIPT_DIR=$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
 files=(
   "/etc/nixos/configuration.nix"
   "/etc/nixos/hardware-configuration.nix"
+  "/home/emrys/.nixpkgs/config.nix"
   "/home/emrys/.xmonad/xmonad.hs"
   "/home/emrys/.xmonad/xmobar.hs"
   "/home/emrys/.stalonetrayrc"

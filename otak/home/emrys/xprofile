@@ -1,8 +1,6 @@
 # Script to configure X, start common apps, and start xmonad.
 
-# Configure X
-#xsetroot -cursor_name left_ptr &
-#xrdb -merge ~/.Xresources &
+# HIDPI
 xrandr --dpi 168
 
 # Start the system tray
@@ -26,7 +24,4 @@ chromium &
 
 # Start screensaver
 xscreensaver -no-splash &
-
-# Start sound server
-pulseaudio --start &
 

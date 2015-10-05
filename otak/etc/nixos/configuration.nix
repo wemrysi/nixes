@@ -9,8 +9,8 @@
   boot = {
     cleanTmpDir = true;
 
-    kernelPackages = pkgs.linuxPackages_3_17;
-    kernelParams = [ "pcie_aspm=force" "i915.enable_fbc=1" "i915.enable_rc6=7" ];
+    kernelPackages = pkgs.linuxPackages_4_2;
+    kernelParams = [ "pcie_aspm=force" "i915.enable_rc6=7" ];
 
     loader.efi.canTouchEfiVariables = true;
     loader.grub.device = "/dev/sda";
@@ -31,36 +31,22 @@
     ];
 
     systemPackages = with pkgs; [
-      ctags
       dmenu
-      dropbox
-      elinks
-      evince
-      git
-      gnupg
       haskellPackages.xmobar
       haskellPackages.yeganesh
       hicolor_icon_theme
-      irssi
       lsof
-      mutt
       nixbang
-      offlineimap
       patchelf
       pavucontrol
-      pidgin-with-plugins
       python
-      rxvt_unicode
       scrot
       silver-searcher
       stalonetray
-      tmux
       unzip
-      urlview
       vim
       wpa_supplicant_gui
       which
-      xfce.ristretto
       xlibs.xdpyinfo
       xlibs.xmessage
       xlibs.xcursorthemes
@@ -110,24 +96,7 @@
   nixpkgs.config = {
     allowUnfree = true;
 
-    chromium = {
-      enablePepperFlash = true;
-      enablePepperPDF = true;
-      enableWideVine = true;
-    };
-
-    firefox = {
-      enableGoogleTalkPlugin = true;
-      enableAdobeFlash = true;
-    };
-
     dmenu.enableXft = true;
-
-    packageOverrides = pkgs: with pkgs; {
-      pidgin-with-plugins = pkgs.pidgin-with-plugins.override {
-        plugins = [ pidginotr ];
-      };
-    };
   };
 
   powerManagement.enable = true;
@@ -146,8 +115,6 @@
     # For Firefox
     dbus.packages = [ pkgs.gnome.GConf ];
 
-    #logind.extraConfig = "HandleLidSwitch=hibernate";
-
     printing = {
       enable = true;
       drivers = [
@@ -157,8 +124,6 @@
     };
 
     upower.enable = true;
-
-    virtualboxHost.enable = true;
 
     xserver = {
       enable = true;
@@ -221,5 +186,12 @@
     mutableUsers = false;
   };
 
-  virtualisation.docker.enable = true;
+  virtualisation = {
+    docker = {
+      enable = true;
+      storageDriver = "devicemapper";
+    };
+
+    virtualbox.host.enable = true;
+  };
 }
