@@ -40,6 +40,7 @@
       gnupg
       haskellPackages.xmobar
       haskellPackages.yeganesh
+      hicolor_icon_theme
       irssi
       lsof
       mutt
@@ -57,7 +58,6 @@
       unzip
       urlview
       vim
-      vlc
       wpa_supplicant_gui
       which
       xfce.ristretto
@@ -143,16 +143,16 @@
   };
 
   services = {
-    chrony.enable = true;
-
     # For Firefox
     dbus.packages = [ pkgs.gnome.GConf ];
+
+    #logind.extraConfig = "HandleLidSwitch=hibernate";
 
     printing = {
       enable = true;
       drivers = [
-        pkgs.gutenprint
         pkgs.foomatic_filters
+        pkgs.gutenprint
       ];
     };
 
@@ -206,7 +206,6 @@
   };
 
   time.timeZone = "America/Chicago";
-  time.hardwareClockInLocalTime = true;
 
   users = {
     defaultUserShell = "/run/current-system/sw/bin/zsh";
