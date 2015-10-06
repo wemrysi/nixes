@@ -9,53 +9,41 @@
   boot = {
     cleanTmpDir = true;
 
+    kernelPackages = pkgs.linuxPackages_4_2;
+
     loader.efi.canTouchEfiVariables = true;
     loader.grub.device = "/dev/sda";
     loader.gummiboot.enable = true;
     loader.gummiboot.timeout = 4;
-
-    initrd.kernelModules = [
-      "fbcon"
-    ];
   };
 
   environment = {
+    pathsToLink = [
+      "/etc/gconf"
+    ];
+
     shells = [
       "/run/current-system/sw/bin/zsh"
     ];
 
     systemPackages = with pkgs; [
-      ctags
+      chromium
       dmenu
-      dropbox
-      elinks
-      evince
-      git
-      gnupg
+      firefox-wrapper
       haskellPackages.xmobar
       haskellPackages.yeganesh
       hicolor_icon_theme
-      irssi
-      libreoffice
       lsof
-      mutt
       nixbang
-      offlineimap
       patchelf
       pavucontrol
-      pidgin-with-plugins
       python
       rdiff-backup
-      rxvt_unicode
       scrot
-      silver-searcher
       stalonetray
-      tmux
       unzip
-      urlview
       vim
       which
-      xfce.ristretto
       xlibs.xmessage
       xscreensaver
     ];
@@ -117,15 +105,16 @@
       enablePepperFlash = true;
       enablePepperPDF = true;
       enableWideVine = true;
-    }; 
+    };
+
+    dmenu.enableXft = true;
+
+    firefox = {
+      enableGoogleTalkPlugin = true;
+      enableAdobeFlash = true;
+    };
 
     virtualbox.enableExtensionPack = true;
-
-    packageOverrides = pkgs: with pkgs; {
-      pidgin-with-plugins = pkgs.pidgin-with-plugins.override {
-        plugins = [ pidginotr ];
-      };
-    };
   };
 
   powerManagement.enable = false;
@@ -140,7 +129,7 @@
   };
 
   services = {
-    chrony.enable = true;
+    dbus.packages = [ pkgs.gnome.GConf ];
 
     openssh = {
       enable = true;
@@ -157,23 +146,30 @@
       ];
     };
 
-    virtualboxHost.enable = true;
-
     xserver = {
-      desktopManager.xterm.enable = false;
+      enable = true;
+
+      desktopManager = {
+        default = "none";
+        xterm.enable = false;
+      };
+
       displayManager = {
         desktopManagerHandlesLidAndPower = false;
 	lightdm.enable = true;
       };
-      enable = true;
+
       multitouch.enable = false;
+
       startGnuPGAgent = true;
+
       videoDrivers = [ "nvidia" ];
-      windowManager.xmonad = {
-        enable = true;
-        enableContribAndExtras = true;
+
+      windowManager = {
+        default = "xmonad";
+        xmonad.enable = true;
+        xmonad.enableContribAndExtras = true;
       };
-      windowManager.default = "xmonad";
     };
 
     znc = {
@@ -205,10 +201,14 @@
     mutableUsers = false;
   };
 
-  virtualisation.docker = {
-    enable = true;
-    extraOptions = "--storage-driver devicemapper --storage-opt dm.basesize=5G --storage-opt dm.datadev=/dev/datavg/dockerdatalv --storage-opt dm.metadatadev=/dev/lookfarvg/dockermetalv";
-  };
+  virtualisation = {
+    docker = {
+      enable = true;
+      extraOptions = "--storage-opt dm.basesize=8G --storage-opt dm.datadev=/dev/datavg/dockerdatalv --storage-opt dm.metadatadev=/dev/lookfarvg/dockermetalv";
+      storageDriver = "devicemapper";
+    };
 
+    virtualbox.host.enable = true;
+  };
 }
 

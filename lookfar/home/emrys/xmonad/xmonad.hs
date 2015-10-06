@@ -26,7 +26,7 @@ import qualified Data.Map        as M
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal = "/run/current-system/sw/bin/urxvt"
+myTerminal = "/home/emrys/.nix-profile/bin/urxvt"
 
 
 ------------------------------------------------------------------------

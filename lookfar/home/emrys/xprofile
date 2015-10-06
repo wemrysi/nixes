@@ -23,6 +23,3 @@ chromium &
 # Start screensaver
 xscreensaver -no-splash &
 
-# Start sound server
-pulseaudio --start &
-
