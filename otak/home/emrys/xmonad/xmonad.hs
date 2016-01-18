@@ -26,7 +26,7 @@ import qualified Data.Map        as M
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal = "/run/current-system/sw/bin/urxvt"
+myTerminal = "/home/emrys/.nix-profile/bin/urxvt"
 
 
 ------------------------------------------------------------------------
@@ -51,10 +51,10 @@ myWorkspaces = ["1:term","2:web","3:code","4:codeaux","5:media"] ++ map show [6.
 -- 'className' and 'resource' are used below.
 --
 myManageHook = composeAll
-    [ className =? "Chromium"        --> doShift "2:web"
-    , resource  =? "desktop_window" --> doIgnore
-    , className =? "Pidgin"         --> doShift "1:term"
-    , className =? "stalonetray"    --> doIgnore
+    [ className =? "chromium-browser" --> doShift "2:web"
+    , resource  =? "desktop_window"   --> doIgnore
+    , className =? "Pidgin"           --> doShift "1:term"
+    , className =? "stalonetray"      --> doIgnore
     , isFullscreen --> (doF W.focusDown <+> doFullFloat)]
 
 

@@ -64,6 +64,8 @@
     };
 
     fonts = [
+      pkgs.corefonts
+      pkgs.cm_unicode
       pkgs.dejavu_fonts
       pkgs.freefont_ttf
       pkgs.inconsolata
@@ -73,7 +75,12 @@
   };
 
   hardware = {
-    pulseaudio.enable = true;
+    opengl.driSupport32Bit = true;
+
+    pulseaudio = {
+      enable = true;
+      support32Bit = true;
+    };
   };
 
   networking = {
@@ -171,6 +178,7 @@
   };
 
   time.timeZone = "America/Chicago";
+# time.timeZone = "America/Los_Angeles";
 
   users = {
     defaultUserShell = "/run/current-system/sw/bin/zsh";
