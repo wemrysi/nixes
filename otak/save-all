@@ -12,6 +12,7 @@ files=(
   "/home/emrys/.stalonetrayrc"
   "/home/emrys/.Xresources"
   "/home/emrys/.xprofile"
+  "/home/emrys/.xinitrc"
 )
 
 # Copy files into project, stripping dots

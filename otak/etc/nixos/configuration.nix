@@ -9,7 +9,8 @@
   boot = {
     cleanTmpDir = true;
 
-    kernelPackages = pkgs.linuxPackages_4_2;
+    blacklistedKernelModules = [ "i2c_hid" ];
+    kernelPackages = pkgs.linuxPackages_4_3;
     kernelParams = [ "pcie_aspm=force" "i915.enable_rc6=7" ];
 
     loader.efi.canTouchEfiVariables = true;
@@ -17,7 +18,6 @@
     loader.gummiboot.enable = true;
     loader.gummiboot.timeout = 4;
 
-    initrd.kernelModules = [ "fbcon" ];
     initrd.luks.devices = [ { name = "luksroot"; device = "/dev/sda6"; preLVM = true; } ];
   };
 
@@ -49,13 +49,11 @@
       which
       xlibs.xdpyinfo
       xlibs.xmessage
-      xlibs.xcursorthemes
       xscreensaver
     ];
   };
 
   fonts = {
-    enableCoreFonts = true;
     enableFontDir = true;
 
     fontconfig = {

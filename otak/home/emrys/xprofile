@@ -1,8 +1,5 @@
 # Script to configure X, start common apps, and start xmonad.
 
-# HIDPI
-xrandr --dpi 168
-
 # Start the system tray
 stalonetray &
 
@@ -17,7 +14,7 @@ urxvt -e tmux &
 urxvt -e mutt &
 
 # Start Pidgin
-pidgin &
+#pidgin &
 
 # Start a browser
 chromium &
