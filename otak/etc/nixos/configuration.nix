@@ -10,7 +10,6 @@
     cleanTmpDir = true;
 
     blacklistedKernelModules = [ "i2c_hid" ];
-    kernelPackages = pkgs.linuxPackages_4_3;
     kernelParams = [ "pcie_aspm=force" "i915.enable_rc6=7" ];
 
     loader.efi.canTouchEfiVariables = true;
@@ -40,6 +39,7 @@
       patchelf
       pavucontrol
       python
+      pythonPackages.docker_compose
       scrot
       silver-searcher
       stalonetray
@@ -73,7 +73,9 @@
   };
 
   hardware = {
-    opengl.driSupport32Bit = true;
+    opengl.extraPackages = [
+      pkgs.vaapiIntel
+    ];
 
     pulseaudio = {
       enable = true;
@@ -124,8 +126,8 @@
       enable = true;
       drivers = [
         pkgs.foomatic_filters
-        pkgs.gutenprint
       ];
+      gutenprint = true;
     };
 
     upower.enable = true;
@@ -139,8 +141,19 @@
       };
 
       displayManager = {
-        desktopManagerHandlesLidAndPower = false;
         lightdm.enable = true;
+      };
+
+      multitouch = {
+        enable = false;
+        additionalOptions = ''
+          Option "Sensitivity" "0.75"
+          Option "ScrollDistance" "100"
+        '';
+        buttonsMap = [ 1 3 2 ];
+        ignorePalm = true;
+        invertScroll = true;
+        tapButtons = false;
       };
 
       startGnuPGAgent = true;
@@ -158,15 +171,13 @@
         tapButtons = false;
         twoFingerScroll = true;
         vertEdgeScroll = false;
+        horizEdgeScroll = false;
       };
-
-      vaapiDrivers = [ pkgs.vaapiIntel ];
 
       videoDrivers = [ "intel" ];
 
       windowManager = {
         default = "xmonad";
-
         xmonad.enable = true;
         xmonad.enableContribAndExtras = true;
       };

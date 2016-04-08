@@ -1,5 +1,8 @@
 # Script to configure X, start common apps, and start xmonad.
 
+# Set the X cursor
+xsetroot -cursor_name left_ptr&
+
 # Start the system tray
 stalonetray &
 
