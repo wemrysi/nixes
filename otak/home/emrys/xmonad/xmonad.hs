@@ -52,8 +52,10 @@ myWorkspaces = ["1:term","2:web","3:code","4:codeaux","5:media"] ++ map show [6.
 --
 myManageHook = composeAll
     [ className =? "chromium-browser" --> doShift "2:web"
+    , className =? "google-chrome"    --> doShift "2:web"
     , resource  =? "desktop_window"   --> doIgnore
     , className =? "Pidgin"           --> doShift "1:term"
+    , className =? "slack"            --> doShift "1:term"
     , className =? "stalonetray"      --> doIgnore
     , isFullscreen --> (doF W.focusDown <+> doFullFloat)]
 

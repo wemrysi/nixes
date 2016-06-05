@@ -11,6 +11,7 @@
 
     blacklistedKernelModules = [ "i2c_hid" ];
     kernelParams = [ "pcie_aspm=force" "i915.enable_rc6=7" ];
+    kernelPackages = pkgs.linuxPackages_4_6;
 
     loader.efi.canTouchEfiVariables = true;
     loader.grub.device = "/dev/sda";
@@ -30,14 +31,17 @@
     ];
 
     systemPackages = with pkgs; [
+      blueman
       dmenu
       haskellPackages.xmobar
       haskellPackages.yeganesh
+      hdparm
       hicolor_icon_theme
       lsof
       nixbang
       patchelf
       pavucontrol
+      powertop
       python
       pythonPackages.docker_compose
       scrot
@@ -73,12 +77,15 @@
   };
 
   hardware = {
+    bluetooth.enable = true;
+
     opengl.extraPackages = [
       pkgs.vaapiIntel
     ];
 
     pulseaudio = {
       enable = true;
+      package = pkgs.pulseaudioFull;
       support32Bit = true;
     };
   };
@@ -106,8 +113,6 @@
     dmenu.enableXft = true;
   };
 
-  powerManagement.enable = true;
-
   programs = {
     light.enable = true;
     ssh.startAgent = false;
@@ -130,6 +135,8 @@
       gutenprint = true;
     };
 
+    tlp.enable = true;
+
     upower.enable = true;
 
     xserver = {
@@ -144,35 +151,17 @@
         lightdm.enable = true;
       };
 
-      multitouch = {
-        enable = false;
-        additionalOptions = ''
-          Option "Sensitivity" "0.75"
-          Option "ScrollDistance" "100"
-        '';
-        buttonsMap = [ 1 3 2 ];
-        ignorePalm = true;
-        invertScroll = true;
-        tapButtons = false;
+      libinput = {
+        enable = true;
+        accelProfile = "adaptive";
+        buttonMapping = "1 2 3";
+        clickMethod = "clickfinger";
+        middleEmulation = false;
+        naturalScrolling = true;
+        tapping = false;
       };
 
       startGnuPGAgent = true;
-
-      synaptics = {
-        enable = true;
-        accelFactor = "0.01";
-        additionalOptions = ''
-          Option "VertScrollDelta" "-100"
-          Option "HorizScrollDelta" "-100"
-        '';
-        buttonsMap = [ 1 3 2 ];
-        fingersMap = [ 0 0 0 ];
-        palmDetect = true;
-        tapButtons = false;
-        twoFingerScroll = true;
-        vertEdgeScroll = false;
-        horizEdgeScroll = false;
-      };
 
       videoDrivers = [ "intel" ];
 
@@ -188,6 +177,7 @@
 
   time.timeZone = "America/Chicago";
 # time.timeZone = "America/Los_Angeles";
+# time.timeZone = "America/New_York";
 
   users = {
     defaultUserShell = "/run/current-system/sw/bin/zsh";
@@ -208,7 +198,5 @@
       enable = true;
       storageDriver = "devicemapper";
     };
-
-    virtualbox.host.enable = true;
   };
 }

@@ -10,6 +10,7 @@
   firefox = {
     enableGoogleTalkPlugin = true;
     enableAdobeFlash = true;
+    enableAdobeFlashDRM = true;
   };
 
   packageOverrides = pkgs: rec {

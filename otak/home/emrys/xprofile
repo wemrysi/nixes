@@ -9,19 +9,24 @@ stalonetray &
 # Start dropbox
 dropbox start &
 
+# Start bluetooth manager
+blueman-applet &
+
 # Start WPA Supplicant GUI
 wpa_gui -t &
 
-# Start two terminals
-urxvt -e tmux &
+# Start screensaver
+xscreensaver -no-splash &
+
+# Start mutt
 urxvt -e mutt &
 
 # Start Pidgin
 #pidgin &
 
 # Start a browser
-chromium &
+google-chrome-stable &
 
-# Start screensaver
-xscreensaver -no-splash &
+# Start slack
+slack &
 
