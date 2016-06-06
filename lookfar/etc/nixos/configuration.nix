@@ -9,8 +9,6 @@
   boot = {
     cleanTmpDir = true;
 
-    kernelPackages = pkgs.linuxPackages_4_2;
-
     loader.efi.canTouchEfiVariables = true;
     loader.grub.device = "/dev/sda";
     loader.gummiboot.enable = true;
@@ -27,9 +25,7 @@
     ];
 
     systemPackages = with pkgs; [
-      chromium
       dmenu
-      firefox-wrapper
       haskellPackages.xmobar
       haskellPackages.yeganesh
       hicolor_icon_theme
@@ -38,6 +34,7 @@
       patchelf
       pavucontrol
       python
+      pythonPackages.docker_compose
       rdiff-backup
       scrot
       stalonetray
@@ -64,8 +61,8 @@
   };
 
   fonts = {
-    enableCoreFonts = true;
     enableFontDir = true;
+    enableGhostscriptFonts = true;
 
     fontconfig = {
       defaultFonts.monospace = [ "Source Code Pro" ];
@@ -73,6 +70,7 @@
     };
 
     fonts = [
+      pkgs.corefonts
       pkgs.dejavu_fonts
       pkgs.freefont_ttf
       pkgs.inconsolata
@@ -84,6 +82,7 @@
   hardware = {
     opengl.driSupport32Bit = true;
     pulseaudio.enable = true;
+    pulseaudio.support32Bit = true;
   };
 
   networking = {
@@ -100,20 +99,7 @@
 
   nixpkgs.config = {
     allowUnfree = true;
-
-    chromium = {
-      enablePepperFlash = true;
-      enablePepperPDF = true;
-      enableWideVine = true;
-    };
-
     dmenu.enableXft = true;
-
-    firefox = {
-      enableGoogleTalkPlugin = true;
-      enableAdobeFlash = true;
-    };
-
     virtualbox.enableExtensionPack = true;
   };
 
@@ -141,9 +127,9 @@
     printing = {
       enable = true;
       drivers = [
-        pkgs.gutenprint
         pkgs.foomatic_filters
       ];
+      gutenprint = true;
     };
 
     xserver = {
@@ -155,7 +141,6 @@
       };
 
       displayManager = {
-        desktopManagerHandlesLidAndPower = false;
 	lightdm.enable = true;
       };
 

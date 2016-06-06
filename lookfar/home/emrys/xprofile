@@ -18,7 +18,7 @@ urxvt -e mutt &
 pidgin &
 
 # Start a browser
-chromium &
+google-chrome-stable &
 
 # Start screensaver
 xscreensaver -no-splash &
