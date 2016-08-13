@@ -22,11 +22,8 @@ xscreensaver -no-splash &
 urxvt -e mutt &
 
 # Start Pidgin
-#pidgin &
+pidgin &
 
 # Start a browser
 google-chrome-stable &
-
-# Start slack
-slack &
 

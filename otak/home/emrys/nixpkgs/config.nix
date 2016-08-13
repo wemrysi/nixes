@@ -13,6 +13,18 @@
     enableAdobeFlashDRM = true;
   };
 
+  neovim = {
+    withJemalloc = true;
+
+    withPython = true;
+    extraPythonPackages = [
+    ];
+
+    withPython3 = true;
+    extraPython3Packages = [
+    ];
+  };
+
   packageOverrides = pkgs: rec {
     jre = pkgs.oraclejre8;
     jdk = pkgs.oraclejdk8;
