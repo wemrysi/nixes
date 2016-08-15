@@ -28,6 +28,7 @@
       dmenu
       haskellPackages.xmobar
       haskellPackages.yeganesh
+      hdparm
       hicolor_icon_theme
       lsof
       nixbang
