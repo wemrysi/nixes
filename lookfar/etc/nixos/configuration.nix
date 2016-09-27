@@ -116,6 +116,13 @@
   };
 
   services = {
+    cron = {
+      enable = true;
+      systemCronJobs = [
+        "27 * * * * root /home/emrys/opt/bin/system-backup /mnt/backup/lookfar-nixos"
+      ];
+    };
+
     dbus.packages = [ pkgs.gnome.GConf ];
 
     openssh = {
