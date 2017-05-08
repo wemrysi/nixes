@@ -101,7 +101,6 @@
   nixpkgs.config = {
     allowUnfree = true;
     dmenu.enableXft = true;
-    virtualbox.enableExtensionPack = true;
   };
 
   powerManagement.enable = false;
@@ -185,7 +184,7 @@
       emrys = {
         createHome = true;
         description = "Emrys Ingersoll";
-        extraGroups = [ "wheel" "docker" "vboxusers" ];
+        extraGroups = [ "wheel" "docker" ];
         isNormalUser = true;
         openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAteBdaiHbu2hkWy13m3eIBu6wxMLBlFwPJvS5S6q2mqlL/me7hoCwABHIyGhlm2rHGwl2+wn14kP2HSDhGFadVBSmFS6Ww9d/qSIMIF4IzBM/T4KBDvvJEzBjbmL6mQv73dIm+5Sq0LAyMDXzpakkViiHfNGRpHQb+apE2SqACAnZpr6DLLP3nG/PPDR2CVWZQ7NC2COBOobmrTHzO0KzE8059POiVMfClbtEalzn4MrbIQ3S0hCUKRyTDjNGc8ZMhM7c/2SS4u/ZoYiw/AbJexNcPXDZlSXT1Y6z7ZLsp0BSIJG+Z+S8Fuu+eJyy2+21mZ/WL8Hhkws7Bx3CkcKFuQ== emrys_rsa" ];
         uid = 1000;
@@ -200,8 +199,6 @@
       extraOptions = "--storage-opt dm.basesize=8G --storage-opt dm.datadev=/dev/datavg/dockerdatalv --storage-opt dm.metadatadev=/dev/lookfarvg/dockermetalv";
       storageDriver = "devicemapper";
     };
-
-    virtualbox.host.enable = true;
   };
 }
 

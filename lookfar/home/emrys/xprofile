@@ -21,6 +21,3 @@ google-chrome-stable &
 
 # Start screensaver
 xscreensaver -no-splash &
-
-# Start spotify
-spotify &
