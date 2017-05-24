@@ -15,9 +15,6 @@ blueman-applet &
 # Start WPA Supplicant GUI
 wpa_gui -t &
 
-# Start screensaver
-xscreensaver -no-splash &
-
 # Start mutt
 urxvt -e mutt &
 
@@ -27,3 +24,5 @@ pidgin &
 # Start a browser
 google-chrome-stable &
 
+# Start screensaver
+xscreensaver -no-splash &

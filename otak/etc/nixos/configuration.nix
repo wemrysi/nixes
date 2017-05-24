@@ -10,13 +10,12 @@
     cleanTmpDir = true;
 
     blacklistedKernelModules = [ "i2c_hid" ];
-    kernelParams = [ "pcie_aspm=force" "i915.enable_rc6=7" ];
-    kernelPackages = pkgs.linuxPackages_4_6;
+    kernelParams = [ "pcie_aspm=force" ];
 
     loader.efi.canTouchEfiVariables = true;
     loader.grub.device = "/dev/sda";
-    loader.gummiboot.enable = true;
-    loader.gummiboot.timeout = 4;
+    loader.systemd-boot.enable = true;
+    loader.timeout = 4;
 
     initrd.luks.devices = [ { name = "luksroot"; device = "/dev/sda6"; preLVM = true; } ];
   };
@@ -115,7 +114,7 @@
 
   programs = {
     light.enable = true;
-    ssh.startAgent = false;
+#   ssh.startAgent = false;
     zsh.enable = true;
   };
 
@@ -125,7 +124,7 @@
 
   services = {
     # For Firefox
-    dbus.packages = [ pkgs.gnome.GConf ];
+    dbus.packages = [ pkgs.gnome3.gconf ];
 
     printing = {
       enable = true;
@@ -161,8 +160,6 @@
         tapping = false;
       };
 
-      startGnuPGAgent = true;
-
       videoDrivers = [ "intel" ];
 
       windowManager = {
@@ -176,6 +173,7 @@
   };
 
   time.timeZone = "America/Chicago";
+# time.timeZone = "America/Denver";
 # time.timeZone = "America/Los_Angeles";
 # time.timeZone = "America/New_York";
 
