@@ -11,8 +11,8 @@
 
     loader.efi.canTouchEfiVariables = true;
     loader.grub.device = "/dev/sda";
-    loader.gummiboot.enable = true;
-    loader.gummiboot.timeout = 4;
+    loader.systemd-boot.enable = true;
+    loader.timeout = 4;
   };
 
   environment = {
@@ -25,6 +25,7 @@
     ];
 
     systemPackages = with pkgs; [
+      blueman
       dmenu
       haskellPackages.xmobar
       haskellPackages.yeganesh
@@ -42,6 +43,7 @@
       unzip
       vim
       which
+      wpa_supplicant_gui
       xlibs.xmessage
       xscreensaver
     ];
@@ -81,6 +83,7 @@
   };
 
   hardware = {
+    bluetooth.enable = true;
     opengl.driSupport32Bit = true;
     pulseaudio.enable = true;
     pulseaudio.support32Bit = true;
@@ -88,8 +91,13 @@
 
   networking = {
     domain = "local";
-    enableIPv6 = false;
     hostName = "lookfar";
+
+    wireless = {
+      enable = true;
+      interfaces = [ "wlp2s0" ];
+      userControlled.enable = true;
+    };
   };
 
   nix = {
@@ -106,7 +114,6 @@
   powerManagement.enable = false;
 
   programs = {
-    ssh.startAgent = false;
     zsh.enable = true;
   };
 
@@ -122,7 +129,7 @@
       ];
     };
 
-    dbus.packages = [ pkgs.gnome.GConf ];
+    dbus.packages = [ pkgs.gnome3.gconf ];
 
     openssh = {
       enable = true;
@@ -153,8 +160,6 @@
 
       multitouch.enable = false;
 
-      startGnuPGAgent = true;
-
       videoDrivers = [ "nvidia" ];
 
       windowManager = {
@@ -164,16 +169,16 @@
       };
     };
 
-    znc = {
-      confOptions = {
-        nick = "estewei";
-        useSSL = true;
-      };
-      dataDir = "/home/emrys/.znc/";
-      enable = true;
-      mutable = true;
-      user = "emrys";
-    };
+#   znc = {
+#     confOptions = {
+#       nick = "estewei";
+#       useSSL = true;
+#     };
+#     dataDir = "/home/emrys/.znc/";
+#     enable = true;
+#     mutable = true;
+#     user = "emrys";
+#   };
   };
 
   time.timeZone = "America/Chicago";
