@@ -23,7 +23,7 @@ urxvt -e mutt &
 pidgin &
 
 # Start a browser
-google-chrome-stable &
+firefox &
 
 # Start screensaver
 xscreensaver -no-splash &

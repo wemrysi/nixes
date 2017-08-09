@@ -31,6 +31,7 @@
       haskellPackages.yeganesh
       hdparm
       hicolor_icon_theme
+      iotop
       lsof
       nixbang
       patchelf
@@ -39,7 +40,9 @@
       pythonPackages.docker_compose
       rdiff-backup
       scrot
+      smartmontools
       stalonetray
+      sysstat
       unzip
       vim
       which
@@ -85,8 +88,11 @@
   hardware = {
     bluetooth.enable = true;
     opengl.driSupport32Bit = true;
-    pulseaudio.enable = true;
-    pulseaudio.support32Bit = true;
+    pulseaudio = {
+      enable = true;
+      package = pkgs.pulseaudioFull;
+      support32Bit = true;
+    };
   };
 
   networking = {
@@ -126,6 +132,7 @@
       enable = true;
       systemCronJobs = [
         "27 * * * * root /home/emrys/opt/bin/system-backup /mnt/backup/lookfar-nixos"
+        "42 2 * * 0 root /home/emrys/opt/bin/trim-filesystems"
       ];
     };
 
@@ -201,7 +208,7 @@
   virtualisation = {
     docker = {
       enable = true;
-      extraOptions = "--storage-opt dm.basesize=8G --storage-opt dm.datadev=/dev/datavg/dockerdatalv --storage-opt dm.metadatadev=/dev/lookfarvg/dockermetalv";
+      extraOptions = "--storage-opt dm.thinpooldev=/dev/mapper/datavg-dockerthinpool --storage-opt dm.use_deferred_deletion=true --storage-opt dm.use_deferred_removal=true";
       storageDriver = "devicemapper";
     };
   };
