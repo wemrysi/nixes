@@ -9,7 +9,7 @@
     ];
 
   boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "xhci_hcd" "firewire_ohci" "usb_storage" "usbhid" ];
-  boot.kernelModules = [ "kvm-intel" "tun" "virtio" "wl" ];
+  boot.kernelModules = [ "kvm-intel" "tun" "virtio" "wl" "dm_thin_pool" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =

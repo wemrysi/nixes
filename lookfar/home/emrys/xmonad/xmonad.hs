@@ -53,7 +53,7 @@ myWorkspaces = ["1:term","2:web","3:code","4:codeaux","5:media"] ++ map show [6.
 myManageHook = composeAll
     [ className =? "slack"            --> doShift "1:term"
     , className =? "spotify"          --> doShift "1:term"
-    , className =? "google-chrome"    --> doShift "2:web"
+    , className =? "Firefox"          --> doShift "2:web"
     , resource  =? "desktop_window"   --> doIgnore
     , className =? "Pidgin"           --> doShift "1:term"
     , className =? "stalonetray"      --> doIgnore
@@ -305,19 +305,25 @@ myStartupHook = return ()
 ------------------------------------------------------------------------
 -- Run xmonad with all the defaults we set up.
 --
+-- Manually ordering event handler registration as described in
+-- https://unix.stackexchange.com/questions/288037/xmobar-does-not-appear-on-top-of-window-stack-when-xmonad-starts/303242#303242
+-- to fix issue where xmobar was being hidden on start.
+--
 main = do
   xmproc <- spawnPipe "xmobar ~/.xmonad/xmobar.hs"
-  xmonad $ withUrgencyHook NoUrgencyHook defaults {
-      logHook = dynamicLogWithPP $ xmobarPP {
-            ppOutput = hPutStrLn xmproc
+  xmonad $ withUrgencyHook NoUrgencyHook defaults
+      { manageHook = manageDocks <+> myManageHook
+      , layoutHook = avoidStruts $ layoutHook defaultConfig
+      , handleEventHook = handleEventHook defaultConfig <+> docksEventHook
+      , logHook = dynamicLogWithPP $ xmobarPP
+          { ppOutput = hPutStrLn xmproc
           , ppTitle = xmobarColor xmobarTitleColor "" . shorten 100
           , ppCurrent = xmobarColor xmobarCurrentWorkspaceColor ""
           , ppSep = "   "
           , ppUrgent = xmobarColor "yellow" "red" . xmobarStrip
-      }
-      , manageHook = manageDocks <+> myManageHook
+          }
       , startupHook = setWMName "LG3D"
-  }
+      }
 
 
 ------------------------------------------------------------------------
