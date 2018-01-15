@@ -35,6 +35,7 @@
       lsof
       nixbang
       patchelf
+      pasystray
       pavucontrol
       python
       pythonPackages.docker_compose
@@ -46,7 +47,7 @@
       unzip
       vim
       which
-      wpa_supplicant_gui
+      wicd
       xlibs.xmessage
       xscreensaver
     ];
@@ -71,15 +72,23 @@
     enableGhostscriptFonts = true;
 
     fontconfig = {
-      defaultFonts.monospace = [ "Source Code Pro" ];
-      ultimate.substitutions = "combi";
+      enable = true;
+      penultimate.enable = false;
+      ultimate.enable = true;
+      defaultFonts = {
+        monospace = [ "Source Code Pro" ];
+        sansSerif = [ "Liberation Sans" ];
+        serif = [ "Liberation Serif" ];
+      };
     };
 
     fonts = [
       pkgs.corefonts
       pkgs.dejavu_fonts
+      pkgs.font-awesome-ttf
       pkgs.freefont_ttf
       pkgs.inconsolata
+      pkgs.liberation_ttf
       pkgs.source-code-pro
       pkgs.ttf_bitstream_vera
     ];
@@ -120,6 +129,9 @@
   powerManagement.enable = false;
 
   programs = {
+    gnupg.agent.enable = true;
+#   gnupg.agent.enableSSHSupport = true;
+    ssh.startAgent = true;
     zsh.enable = true;
   };
 
@@ -149,8 +161,8 @@
       enable = true;
       drivers = [
         pkgs.foomatic_filters
+        pkgs.gutenprint
       ];
-      gutenprint = true;
     };
 
     xserver = {

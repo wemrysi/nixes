@@ -7,14 +7,17 @@ xrdb -merge ~/.Xresources &
 # Start the system tray
 stalonetray &
 
+# Start volume control
+pasystray &
+
 # Start dropbox
 dropbox start &
 
 # Start bluetooth manager
 blueman-applet &
 
-# Start WPA Supplicant GUI
-wpa_gui -t &
+# Start wicd-client
+#wicd-client -t &
 
 # Start two terminals
 urxvt -e mutt &

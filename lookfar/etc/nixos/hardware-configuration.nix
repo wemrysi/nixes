@@ -8,8 +8,8 @@
     [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
     ];
 
-  boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "xhci_hcd" "firewire_ohci" "usb_storage" "usbhid" ];
-  boot.kernelModules = [ "kvm-intel" "tun" "virtio" "wl" "dm_thin_pool" ];
+  boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "xhci_hcd" "firewire_ohci" "usb_storage" "usbhid" "dm_thin_pool" ];
+  boot.kernelModules = [ "kvm-intel" "tun" "virtio" "dm_thin_pool" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
