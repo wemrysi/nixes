@@ -16,7 +16,9 @@ import XMonad.Layout.Spiral
 import XMonad.Layout.Tabbed
 import XMonad.Layout.ThreeColumns
 import XMonad.Util.Run(spawnPipe)
-import XMonad.Util.EZConfig(additionalKeys, mkKeymap)
+import XMonad.Util.EZConfig(additionalKeys)
+-- For the multimedia key types
+import Graphics.X11.ExtraTypes.XF86
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
@@ -51,11 +53,11 @@ myWorkspaces = ["1:term","2:web","3:code","4:codeaux","5:media"] ++ map show [6.
 -- 'className' and 'resource' are used below.
 --
 myManageHook = composeAll
-    [ className =? "chromium-browser" --> doShift "2:web"
-    , className =? "google-chrome"    --> doShift "2:web"
+    [ className =? "slack"            --> doShift "1:term"
+    , className =? "spotify"          --> doShift "1:term"
+    , className =? "Firefox"          --> doShift "2:web"
     , resource  =? "desktop_window"   --> doIgnore
     , className =? "Pidgin"           --> doShift "1:term"
-    , className =? "slack"            --> doShift "1:term"
     , className =? "stalonetray"      --> doIgnore
     , isFullscreen --> (doF W.focusDown <+> doFullFloat)]
 
@@ -116,60 +118,56 @@ myBorderWidth = 1
 --
 myModMask = mod1Mask
 
--- Command to run dmenu, unsure why dmenu-with-yeganesh doesn't work
-dmenuCmd = "dmenu_run -i -fn 'xft:Source Code Pro:size=10:antialias=true'"
-
-myKeys conf = mkKeymap conf $
+myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   ----------------------------------------------------------------------
   -- Custom key bindings
   --
 
   -- Start a terminal.  Terminal to start is specified by myTerminal variable.
-  [ ("M-S-<Return>",
+  [ ((modMask .|. shiftMask, xK_Return),
      spawn $ XMonad.terminal conf)
 
   -- Lock the screen using xscreensaver.
-  , ("M-C-l",
+  , ((modMask .|. controlMask, xK_l),
      spawn "xscreensaver-command -lock")
 
   -- Launch dmenu, use this to launch programs without a key binding.
-  , ("M-p",
-     spawn dmenuCmd)
+  , ((modMask, xK_p),
+     spawn "dmenu_run")
 
   -- Take a screenshot in select mode.
   -- After pressing this key binding, click a window, or draw a rectangle with
   -- the mouse.
-  , ("M-S-p",
+  , ((modMask .|. shiftMask, xK_p),
      spawn "select-screenshot")
 
   -- Take full screenshot in multi-head mode.
   -- That is, take a screenshot of everything you see.
-  , ("M-C-S-p",
+  , ((modMask .|. controlMask .|. shiftMask, xK_p),
      spawn "screenshot")
 
-  -- NB: Disabled as "Speaker" remains separately muted when master is unmuted
   -- Mute volume.
-  --, ("<XF86AudioMute>",
-  --   spawn "amixer -c 1 -q set Master toggle")
+  , ((0, xF86XK_AudioMute),
+     spawn "amixer -q set Master toggle")
 
   -- Decrease volume.
-  , ("<XF86AudioLowerVolume>",
-     spawn "amixer -c 1 -q set Master 5%-")
+  , ((0, xF86XK_AudioLowerVolume),
+     spawn "amixer -q set Master 5%-")
 
   -- Increase volume.
-  , ("<XF86AudioRaiseVolume>",
-     spawn "amixer -c 1 -q set Master 5%+")
+  , ((0, xF86XK_AudioRaiseVolume),
+     spawn "amixer -q set Master 5%+")
 
   -- Decrease brightness.
-  , ("<XF86MonBrightnessDown>",
+  , ((0, xF86XK_MonBrightnessDown),
      spawn "light -b -U 5")
 
   -- Increase brightness.
-  , ("<XF86MonBrightnessUp>",
+  , ((0, xF86XK_MonBrightnessUp),
      spawn "light -b -A 5")
 
   -- Focus latest urgent window
-  , ("M-u",
+  , ((modMask, xK_u),
      focusUrgent)
 
   --------------------------------------------------------------------
@@ -177,84 +175,94 @@ myKeys conf = mkKeymap conf $
   --
 
   -- Close focused window.
-  , ("M-S-c",
+  , ((modMask .|. shiftMask, xK_c),
      kill)
 
   -- Cycle through the available layout algorithms.
-  , ("M-<Space>",
+  , ((modMask, xK_space),
      sendMessage NextLayout)
 
   --  Reset the layouts on the current workspace to default.
-  , ("M-S-<Space>",
+  , ((modMask .|. shiftMask, xK_space),
      setLayout $ XMonad.layoutHook conf)
 
   -- Resize viewed windows to the correct size.
-  , ("M-n",
+  , ((modMask, xK_n),
      refresh)
 
   -- Move focus to the next window.
-  , ("M-<Tab>",
+  , ((modMask, xK_Tab),
      windows W.focusDown)
 
   -- Move focus to the next window.
-  , ("M-j",
+  , ((modMask, xK_j),
      windows W.focusDown)
 
   -- Move focus to the previous window.
-  , ("M-k",
-     windows W.focusUp)
+  , ((modMask, xK_k),
+     windows W.focusUp  )
 
   -- Move focus to the master window.
-  , ("M-m",
-     windows W.focusMaster)
+  , ((modMask, xK_m),
+     windows W.focusMaster  )
 
   -- Swap the focused window and the master window.
-  , ("M-<Return>",
+  , ((modMask, xK_Return),
      windows W.swapMaster)
 
   -- Swap the focused window with the next window.
-  , ("M-S-j",
-     windows W.swapDown)
+  , ((modMask .|. shiftMask, xK_j),
+     windows W.swapDown  )
 
   -- Swap the focused window with the previous window.
-  , ("M-S-k",
-     windows W.swapUp)
+  , ((modMask .|. shiftMask, xK_k),
+     windows W.swapUp    )
 
   -- Shrink the master area.
-  , ("M-h",
+  , ((modMask, xK_h),
      sendMessage Shrink)
 
   -- Expand the master area.
-  , ("M-l",
+  , ((modMask, xK_l),
      sendMessage Expand)
 
   -- Push window back into tiling.
-  , ("M-t",
+  , ((modMask, xK_t),
      withFocused $ windows . W.sink)
 
   -- Increment the number of windows in the master area.
-  , ("M-,",
+  , ((modMask, xK_comma),
      sendMessage (IncMasterN 1))
 
   -- Decrement the number of windows in the master area.
-  , ("M-.",
+  , ((modMask, xK_period),
      sendMessage (IncMasterN (-1)))
 
+  -- Toggle the status bar gap.
+  -- TODO: update this binding with avoidStruts, ((modMask, xK_b),
+
   -- Quit xmonad.
-  , ("M-S-q",
+  , ((modMask .|. shiftMask, xK_q),
      io (exitWith ExitSuccess))
 
   -- Restart xmonad.
-  , ("M-q",
+  , ((modMask, xK_q),
      restart "xmonad" True)
   ]
+  ++
 
-workspaceKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   -- mod-[1..9], Switch to workspace N
   -- mod-shift-[1..9], Move client to workspace N
   [((m .|. modMask, k), windows $ f i)
       | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
       , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+  ++
+
+  -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
+  -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
+  [((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
+      | (key, sc) <- zip [xK_w, xK_e] [0..]
+      , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 
 
 ------------------------------------------------------------------------
@@ -307,19 +315,24 @@ myStartupHook = return ()
 ------------------------------------------------------------------------
 -- Run xmonad with all the defaults we set up.
 --
+-- Manually ordering event handler registration as described in
+-- https://unix.stackexchange.com/questions/288037/xmobar-does-not-appear-on-top-of-window-stack-when-xmonad-starts/303242#303242
+-- to fix issue where xmobar was being hidden on start.
+--
 main = do
   xmproc <- spawnPipe "xmobar ~/.xmonad/xmobar.hs"
-  xmonad $ withUrgencyHook NoUrgencyHook defaults {
-      logHook = dynamicLogWithPP $ xmobarPP {
-            ppOutput = hPutStrLn xmproc
+  xmonad $ withUrgencyHook NoUrgencyHook defaults
+      { manageHook = manageDocks <+> myManageHook
+      , layoutHook = avoidStruts $ layoutHook defaults
+      , handleEventHook = handleEventHook defaults <+> docksEventHook
+      , logHook = dynamicLogWithPP $ xmobarPP
+          { ppOutput = hPutStrLn xmproc
           , ppTitle = xmobarColor xmobarTitleColor "" . shorten 100
           , ppCurrent = xmobarColor xmobarCurrentWorkspaceColor ""
           , ppSep = "   "
           , ppUrgent = xmobarColor "yellow" "red" . xmobarStrip
+          }
       }
-      , manageHook = manageDocks <+> myManageHook
-      , startupHook = setWMName "LG3D"
-  }
 
 
 ------------------------------------------------------------------------
@@ -341,7 +354,7 @@ defaults = defaultConfig {
     focusedBorderColor = myFocusedBorderColor,
 
     -- key bindings
-    keys               = \c -> M.union (myKeys c) (workspaceKeys c),
+    keys               = myKeys,
     mouseBindings      = myMouseBindings,
 
     -- hooks, layouts

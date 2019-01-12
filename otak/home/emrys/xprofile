@@ -6,23 +6,20 @@ xsetroot -cursor_name left_ptr&
 # Start the system tray
 stalonetray &
 
-# Start dropbox
-dropbox start &
-
 # Start bluetooth manager
 blueman-applet &
 
-# Start WPA Supplicant GUI
-wpa_gui -t &
+# Start volume mixer
+pasystray &
+
+# Start NetworkManager applet
+nm-applet &
 
 # Start mutt
 urxvt -e mutt &
 
 # Start Pidgin
-pidgin &
-
-# Start a browser
-google-chrome-stable &
+#pidgin &
 
 # Start screensaver
 xscreensaver -no-splash &
