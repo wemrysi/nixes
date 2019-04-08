@@ -27,18 +27,19 @@
     systemPackages = with pkgs; [
       blueman
       dmenu
+      dropbox-cli
       haskellPackages.xmobar
       haskellPackages.yeganesh
       hdparm
       hicolor_icon_theme
       iotop
       lsof
+      networkmanagerapplet
       nixbang
       patchelf
       pasystray
       pavucontrol
       python
-      pythonPackages.docker_compose
       rdiff-backup
       scrot
       smartmontools
@@ -47,7 +48,6 @@
       unzip
       vim
       which
-      wicd
       xlibs.xmessage
       xscreensaver
     ];
@@ -64,6 +64,10 @@
 
     "/mnt/iffish" = {
       device = "/dev/datavg/iffishlv";
+    };
+
+    "/var/lib/docker" = {
+      device = "/dev/datavg/dockerlv";
     };
   };
 
@@ -85,6 +89,7 @@
     fonts = [
       pkgs.corefonts
       pkgs.dejavu_fonts
+      pkgs.emojione
       pkgs.font-awesome-ttf
       pkgs.freefont_ttf
       pkgs.inconsolata
@@ -104,12 +109,21 @@
     };
   };
 
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+  };
+
   networking = {
     domain = "local";
     hostName = "lookfar";
 
-    wireless = {
+    networkmanager = {
       enable = true;
+      dns = "dnsmasq";
+    };
+
+    wireless = {
+      enable = false;
       interfaces = [ "wlp2s0" ];
       userControlled.enable = true;
     };
@@ -147,8 +161,6 @@
         "42 2 * * 0 root /home/emrys/opt/bin/trim-filesystems"
       ];
     };
-
-    dbus.packages = [ pkgs.gnome3.gconf ];
 
     openssh = {
       enable = true;
@@ -200,6 +212,26 @@
 #   };
   };
 
+  sound.enable = true;
+
+  systemd.user.services.dropbox = {
+    description = "Dropbox";
+    wantedBy = [ "graphical-session.target" ];
+    environment = {
+      QT_PLUGIN_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtPluginPrefix;
+      QML2_IMPORT_PATH = "/run/current-system/sw/" + pkgs.qt5.qtbase.qtQmlPrefix;
+    };
+    serviceConfig = {
+      ExecStart = "${pkgs.dropbox.out}/bin/dropbox";
+      ExecReload = "${pkgs.coreutils.out}/bin/kill -HUP $MAINPID";
+      KillMode = "control-group"; # upstream recommends process
+      Restart = "on-failure";
+      PrivateTmp = true;
+      ProtectSystem = "full";
+      Nice = 10;
+    };
+  };
+
   time.timeZone = "America/Chicago";
 
   users = {
@@ -208,7 +240,7 @@
       emrys = {
         createHome = true;
         description = "Emrys Ingersoll";
-        extraGroups = [ "wheel" "docker" ];
+        extraGroups = [ "wheel" "docker" "networkmanager" ];
         isNormalUser = true;
         openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAteBdaiHbu2hkWy13m3eIBu6wxMLBlFwPJvS5S6q2mqlL/me7hoCwABHIyGhlm2rHGwl2+wn14kP2HSDhGFadVBSmFS6Ww9d/qSIMIF4IzBM/T4KBDvvJEzBjbmL6mQv73dIm+5Sq0LAyMDXzpakkViiHfNGRpHQb+apE2SqACAnZpr6DLLP3nG/PPDR2CVWZQ7NC2COBOobmrTHzO0KzE8059POiVMfClbtEalzn4MrbIQ3S0hCUKRyTDjNGc8ZMhM7c/2SS4u/ZoYiw/AbJexNcPXDZlSXT1Y6z7ZLsp0BSIJG+Z+S8Fuu+eJyy2+21mZ/WL8Hhkws7Bx3CkcKFuQ== emrys_rsa" ];
         uid = 1000;
@@ -220,8 +252,8 @@
   virtualisation = {
     docker = {
       enable = true;
-      extraOptions = "--storage-opt dm.thinpooldev=/dev/mapper/datavg-dockerthinpool --storage-opt dm.use_deferred_deletion=true --storage-opt dm.use_deferred_removal=true";
-      storageDriver = "devicemapper";
+      enableOnBoot = false;
+      storageDriver = "overlay2";
     };
   };
 }

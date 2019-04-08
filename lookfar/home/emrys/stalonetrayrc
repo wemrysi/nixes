@@ -1,5 +1,7 @@
 background black
-geometry 7x1+1804+0
+geometry 1x1+1900+0
+max_geometry 10x1
+grow_gravity NE
 icon_gravity NE
 icon_size 16
 window_type normal

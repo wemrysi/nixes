@@ -1,12 +1,6 @@
 {
   allowUnfree = true;
 
-  chromium = {
-    enablePepperFlash = true;
-    enablePepperPDF = true;
-    enableWideVine = true;
-  };
-
   firefox = {
     enableGoogleTalkPlugin = true;
     enableAdobeFlash = true;
@@ -24,14 +18,13 @@
     ];
   };
 
+  oraclejdk.accept_license = true;
+
   vim = {
     python = true;
   };
 
   packageOverrides = pkgs: rec {
-    jre = pkgs.oraclejre8;
-    jdk = pkgs.oraclejdk8;
-
     pidgin-with-plugins = pkgs.pidgin-with-plugins.override {
       plugins = [ pkgs.pidginotr ];
     };

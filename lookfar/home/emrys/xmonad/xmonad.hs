@@ -33,7 +33,7 @@ myTerminal = "/home/emrys/.nix-profile/bin/urxvt"
 -- Workspaces
 -- The default number of workspaces (virtual screens) and their names.
 --
-myWorkspaces = ["1:term","2:web","3:code","4:codeaux","5:media"] ++ map show [6..9]
+myWorkspaces = ["1:coms","2:web","3:code","4:compile","5:docs"] ++ map show [6..9]
 
 
 ------------------------------------------------------------------------
@@ -51,11 +51,10 @@ myWorkspaces = ["1:term","2:web","3:code","4:codeaux","5:media"] ++ map show [6.
 -- 'className' and 'resource' are used below.
 --
 myManageHook = composeAll
-    [ className =? "slack"            --> doShift "1:term"
-    , className =? "spotify"          --> doShift "1:term"
+    [ className =? "discord"          --> doShift "1:coms"
     , className =? "Firefox"          --> doShift "2:web"
     , resource  =? "desktop_window"   --> doIgnore
-    , className =? "Pidgin"           --> doShift "1:term"
+    , className =? "Pidgin"           --> doShift "1:coms"
     , className =? "stalonetray"      --> doIgnore
     , isFullscreen --> (doF W.focusDown <+> doFullFloat)]
 
@@ -313,8 +312,8 @@ main = do
   xmproc <- spawnPipe "xmobar ~/.xmonad/xmobar.hs"
   xmonad $ withUrgencyHook NoUrgencyHook defaults
       { manageHook = manageDocks <+> myManageHook
-      , layoutHook = avoidStruts $ layoutHook defaultConfig
-      , handleEventHook = handleEventHook defaultConfig <+> docksEventHook
+      , layoutHook = avoidStruts $ layoutHook defaults
+      , handleEventHook = handleEventHook defaults <+> docksEventHook
       , logHook = dynamicLogWithPP $ xmobarPP
           { ppOutput = hPutStrLn xmproc
           , ppTitle = xmobarColor xmobarTitleColor "" . shorten 100
@@ -322,7 +321,6 @@ main = do
           , ppSep = "   "
           , ppUrgent = xmobarColor "yellow" "red" . xmobarStrip
           }
-      , startupHook = setWMName "LG3D"
       }
 
 

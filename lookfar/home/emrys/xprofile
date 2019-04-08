@@ -5,28 +5,22 @@ xsetroot -cursor_name left_ptr &
 xrdb -merge ~/.Xresources &
 
 # Start the system tray
-stalonetray &
+stalonetray --kludges force_icons_size &
 
 # Start volume control
 pasystray &
 
-# Start dropbox
-dropbox start &
-
 # Start bluetooth manager
 blueman-applet &
 
-# Start wicd-client
-#wicd-client -t &
+# Start NetworkManager applet
+nm-applet &
 
 # Start two terminals
 urxvt -e mutt &
 
 # Start Pidgin
 pidgin &
-
-# Start a browser
-firefox &
 
 # Start screensaver
 xscreensaver -no-splash &
