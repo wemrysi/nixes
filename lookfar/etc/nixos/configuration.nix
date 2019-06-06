@@ -255,6 +255,13 @@
       enableOnBoot = false;
       storageDriver = "overlay2";
     };
+
+    virtualbox = {
+      host = {
+        enable = true;
+        enableExtensionPack = true;
+      };
+    };
   };
 }
 
