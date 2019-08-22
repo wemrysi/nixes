@@ -7,14 +7,33 @@ URxvt*borderless: 1
 URxvt*scrollBar: false
 URxvt*loginShell: true
 Urxvt*secondaryScroll:true    # Enable Shift-PageUp/Down in screen
-URxvt*saveLines: 5000
+URxvt*saveLines: 10000
 URxvt*termName: rxvt-unicode
-URxvt.perl-ext-common: default,matcher,font-size
+
+URxvt.perl-ext-common: default,matcher,font-size,clipboard
+
+! Clipboard bindings
+!URxvt.keysym.C-S-c: perl:clipboard:copy
+!URxvt.keysym.C-S-v: perl:clipboard:paste
+
+! URL handling
 URxvt.url-launcher: firefox
+URxvt.underlineURLs: true
 URxvt.matcher.button: 1
- 
+
+! Automatically copy mouse selection to clipboard
+!URxvt.clipboard.autocopy: true
+
+! Font size adjustment keybindings
+URxvt.keysym.C-Up: font-size:increase
+URxvt.keysym.C-Down: font-size:decrease
+URxvt.keysym.C-S-Up: font-size:incglobal
+URxvt.keysym.C-S-Down: font-size:decglobal
+URxvt.keysym.C-equal: font-size:reset
+URxvt.keysym.C-slash: font-size:show
+
 !! drop in Solarized colorscheme for Xresources/Xdefaults
- 
+
 !!SOLARIZED HEX     16/8 TERMCOL  XTERM/HEX   L*A*B      RGB         HSB
 !!--------- ------- ---- -------  ----------- ---------- ----------- -----------
 !!base03    #002b36  8/4 brblack  234 #1c1c1c 15 -12 -12   0  43  54 193 100  21
@@ -33,7 +52,7 @@ URxvt.matcher.button: 1
 !!blue      #268bd2  4/4 blue      33 #0087ff 55 -10 -45  38 139 210 205  82  82
 !!cyan      #2aa198  6/6 cyan      37 #00afaf 60 -35 -05  42 161 152 175  74  63
 !!green     #859900  2/2 green     64 #5f8700 60 -20  65 133 153   0  68 100  60
- 
+
 #define S_base03        #002b36
 #define S_base02        #073642
 #define S_base01        #586e75
@@ -50,42 +69,41 @@ URxvt.matcher.button: 1
 #define S_blue          #268bd2
 #define S_cyan          #2aa198
 #define S_green         #859900
- 
+
 *background:            S_base03
 *foreground:            S_base00
 *cursorColor:           S_base1
 *pointerColorBackground:S_base01
 *pointerColorForeground:S_base1
- 
+
 !! black dark/light
 *color0:                S_base02
 *color8:                S_base03
- 
+
 !! red dark/light
 *color1:                S_red
 *color9:                S_orange
- 
+
 !! green dark/light
 *color2:                S_green
 *color10:               S_base01
- 
+
 !! yellow dark/light
 *color3:                S_yellow
 *color11:               S_base00
- 
+
 !! blue dark/light
 *color4:                S_blue
 *color12:               S_base0
- 
+
 !! magenta dark/light
 *color5:                S_magenta
 *color13:               S_violet
- 
+
 !! cyan dark/light
 *color6:                S_cyan
 *color14:               S_base1
- 
+
 !! white dark/light
 *color7:                S_base2
 *color15:               S_base3
-
